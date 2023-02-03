@@ -9145,6 +9145,11 @@
   "resolved" "https://registry.npmjs.org/std-env/-/std-env-3.3.1.tgz"
   "version" "3.3.1"
 
+"strapi-plugin-populate-deep@^2.0.0":
+  "integrity" "sha512-IsdXZPjRiOnaczoQaXI6xfxnFqUhR70uW1VCRbY4a3hEmmocpCpIUGx7TiHdNPJOZuDiueTgEIQ4V5XEru9Lvw=="
+  "resolved" "https://registry.npmjs.org/strapi-plugin-populate-deep/-/strapi-plugin-populate-deep-2.0.0.tgz"
+  "version" "2.0.0"
+
 "stream-browserify@^3.0.0":
   "integrity" "sha512-H73RAHsVBapbim0tU2JwwOiXUj+fikfiaoYAKHF3VJfA0pe2BCzkhAHBlLG6REzE+2WNZcxOXjK7lkso+9euLA=="
   "resolved" "https://registry.npmjs.org/stream-browserify/-/stream-browserify-3.0.0.tgz"

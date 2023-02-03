@@ -14,14 +14,21 @@ mercadopago.configure({
 
 module.exports = createCoreController("api::product.product", () => ({
   async index(ctx, next) {
+    const { cart } = ctx?.request?.body;
+    let itemsCart = cart?.cartItems?.map(({ id, attributes, cartQuantity }) => {
+      return {
+        title: attributes?.title,
+        unit_price: attributes?.price,
+        quantity: cartQuantity,
+        picture_url: attributes?.images?.data[0]?.attributes?.url,
+        description: attributes?.description,
+        currency_id: "ARS",
+      };
+    });
+
+    console.log(itemsCart);
     let preference = {
-      items: [
-        {
-          title: "Mi producto",
-          unit_price: 100,
-          quantity: 1,
-        },
-      ],
+      items: itemsCart,
       purpose: "wallet_purchase",
       back_urls: {
         success: "http://localhost:3000",
@@ -31,9 +38,17 @@ module.exports = createCoreController("api::product.product", () => ({
       auto_return: "approved",
       notification_url: "https://www.your-site.com/ipn",
       statement_descriptor: "StripeEcommerce",
-      binary_mode: true,
+      payment_methods: {
+        excluded_payment_types: [
+          {
+            id: "ticket",
+          },
+        ],
+        installments: 9,
+      },
+      /* binary_mode: true, */
       shipments: {
-        cost: 3000,
+        cost: 1500,
         mode: "not_specified",
       },
     };

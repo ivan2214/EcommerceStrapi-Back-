@@ -1,8 +1,8 @@
 module.exports = {
   routes: [
     {
-      method: "GET",
-      path: "/payment",
+      method: "POST",
+      path: "/payments",
       handler: "pagos.index",
     },
   ],
