@@ -6,10 +6,9 @@
 
 const { createCoreController } = require("@strapi/strapi").factories;
 const mercadopago = require("mercadopago");
-const token =
-  "TEST-5252115275455780-121417-be37b959d204d0f35c680239791faf1b-1264128618";
+
 mercadopago.configure({
-  access_token: token,
+  access_token: process.env.ACCES_TOKEN,
 });
 
 module.exports = createCoreController("api::product.product", () => ({
@@ -21,29 +20,25 @@ module.exports = createCoreController("api::product.product", () => ({
         unit_price: attributes?.price,
         quantity: cartQuantity,
         picture_url: attributes?.images?.data[0]?.attributes?.url,
-        description: attributes?.description,
+        description:
+          attributes?.description.length > 100
+            ? attributes?.description.slice(0, 150)
+            : attributes?.description,
         currency_id: "ARS",
       };
     });
 
-    console.log(itemsCart);
     let preference = {
       items: itemsCart,
       purpose: "wallet_purchase",
       back_urls: {
-        success: "http://localhost:3000",
-        failure: "http://localhost:3000/failure",
-        pending: "http://localhost:3000/pending",
+        success: "https://ecommerce-front-mu.vercel.app/products",
+        failure: "https://ecommerce-front-mu.vercel.app/failure",
+        pending: "https://ecommerce-front-mu.vercel.app/pending",
       },
-      auto_return: "approved",
-      notification_url: "https://www.your-site.com/ipn",
+      notification_url: "https://ecommerce-front-mu.vercel.app",
       statement_descriptor: "StripeEcommerce",
       payment_methods: {
-        excluded_payment_types: [
-          {
-            id: "ticket",
-          },
-        ],
         installments: 9,
       },
       /* binary_mode: true, */
@@ -54,7 +49,8 @@ module.exports = createCoreController("api::product.product", () => ({
     };
     try {
       const responde = await mercadopago.preferences.create(preference);
-
+      axi
+      console.log(responde);
       ctx.send(responde);
     } catch (error) {
       console.log(error.message);
